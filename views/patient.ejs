@@ -1,0 +1,16 @@
+<h2>Patient Form</h2>
+
+<form method="POST" action="/patient"> 
+    <input type="text" name="firstName" id="firstName" placeholder="First Name">
+    <br>
+    <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+    <br>
+    <input type="number" name="age" id="age" placeholder="Age">
+    <br>
+    <input type="email" name="email" id="email" placeholder="Email">
+    <br>
+    <textarea name="symptoms" cols="30" rows="10" id="symptoms" placeholder="Describe Your Symptoms"></textarea>
+    <br>
+    <input type="hidden" name="userId" value="<%= currentUser.id %>">
+    <input type="submit" id="submit" value="Submit Information"> 
+</form>  

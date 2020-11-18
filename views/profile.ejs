@@ -1,1 +1,18 @@
 <h2><%= currentUser.name %>'s Profile </h2> 
+<h3>Patients Associated With <%= currentUser.name %>'s Profile:</h3>
+
+<% patients.forEach(patient=>{ %>
+    <ul>
+        <li><%= patient.firstName %> <%= patient.lastName %> <a href="/deletePatient?patientId=<%= patient.id %>">Delete</a>
+            <br>
+        <form action="/updatePatient" method="POST">
+            <input type="text" name="symptoms" value="<%= patient.symptoms %>"/>
+            <input type="hidden" name="patientId" value="<%= patient.id %>">
+            <input type="submit" value="Update">
+        </form>
+        </li>
+    </ul>
+    <% }) %>
+
+
+ 
