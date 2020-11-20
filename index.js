@@ -70,6 +70,57 @@ app.get('/', (req,res)=>{
    res.render('home')
 })
 
+//---------GET patient-profile 
+app.get('/patient-profile', (req,res)=>{
+    db.patient.findOne({where:{id:req.query.id}})
+    .then(patient=>{
+        const data = JSON.stringify({text: "I still have a headahce.", age: {value:30}});
+const config = {
+  method: 'post',
+  url: 'https://api.infermedica.com/v3/parse',
+  headers: { 
+    'App-Id': 'a7812a3e', 
+    'App-Key': 'fc790b7e1c4cc666e7747f76126a1e0f', 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+axios(config)
+.then(response => {
+  console.log(response.data);
+  let arr = [];
+  response.data.mentions.forEach(mention=>{
+      //console.log(mention.id)
+      arr.push({"id": mention.id, "choice_id": mention.choice_id})
+      //console.log(mention.choice_id)
+  })
+  //write json
+  const data = JSON.stringify({"sex": "female", "age": {"value": 30}, "evidence": arr});
+  const config = {
+    method: 'post',
+    url: 'https://api.infermedica.com/v3/diagnosis',
+    headers: { 
+      'App-Id': 'a7812a3e', 
+      'App-Key': 'fc790b7e1c4cc666e7747f76126a1e0f', 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  //console.log(data)
+  axios(config)
+  .then(response =>{
+      console.log(response.data.conditions)
+      patient.conditions = response.data.conditions
+      res.render('patient-profile.ejs', {patient})
+  })
+})
+.catch(error => {
+  console.log(error);
+});
+    })
+    //res.send('test')
+})
+
 //------GET PROFILE--------
 app.get('/profile',isLoggedIn,(req,res)=>{
     console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
@@ -79,6 +130,10 @@ app.get('/profile',isLoggedIn,(req,res)=>{
     })
     .then(patients => {
         console.log(patients)
+        //let patientCondition = []
+        /*patients.forEach(patient =>{
+
+        })*/
         res.render('profile.ejs', {patients})
     })
     .catch(error => {
@@ -116,7 +171,51 @@ app.post('/updatePatient',isLoggedIn,(req,res)=>{
         console.log(`you encountered an error ${error}`)
     })
 })
+//----------Infermedica API-----------
+/*const data = JSON.stringify({text: "I still have a headahce.", age: {value:30}});
+const config = {
+  method: 'post',
+  url: 'https://api.infermedica.com/v3/parse',
+  headers: { 
+    'App-Id': 'a7812a3e', 
+    'App-Key': 'fc790b7e1c4cc666e7747f76126a1e0f', 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+axios(config)
+.then(response => {
+  console.log(response.data);
+  let arr = [];
+  response.data.mentions.forEach(mention=>{
+      //console.log(mention.id)
+      arr.push({"id": mention.id, "choice_id": mention.choice_id})
+      //console.log(mention.choice_id)
+  })
+  //write json
+  const data = JSON.stringify({"sex": "female", "age": {"value": 30}, "evidence": arr});
+  const config = {
+    method: 'post',
+    url: 'https://api.infermedica.com/v3/diagnosis',
+    headers: { 
+      'App-Id': 'a7812a3e', 
+      'App-Key': 'fc790b7e1c4cc666e7747f76126a1e0f', 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  //console.log(data)
+  axios(config)
+  .then(response =>{
+      console.log(response.data.conditions)
+  })
+})
+.catch(error => {
+  console.log(error);
+});*/
 
-app.listen(process.env.PORT, ()=>{
+
+
+app.listen(process.env.PORT || 8000, ()=>{
     console.log('listening to port 8000')
 })
