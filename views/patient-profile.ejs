@@ -4,5 +4,6 @@
 
 <ul><%patient.conditions.forEach(condition=>{ %>
     <li><%=condition.name%></li>
+    <p>Probability: <%=condition.probability%></p> 
 <% }) %>
 </ul>
