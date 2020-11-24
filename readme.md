@@ -1,57 +1,23 @@
-# Express Auth Boilerplate
+# Project Two: Virtual Health
 
-- create a node app
-- .gitignore
-- imnstall and set up express
-- stubbed out Get auth/login, GET auth/signup, POST auth/login, POST auth/signup
-- configured auth controller
-- set up ejs, express-ejs-layouts
-- set up the signup and login forms
+This is an application designed to provide a diagnosis in response to given symptom(s). It uses the Infermedica Medical API's "parse" and "diagnosis" endpoints to filter text for symptom keywords, then provide a diagnosis.
 
 ## How to set up
 
-1. Fork and Clone
-2. Install Dependencies
+1. run `npm i`
+2. create a user
+3. each user can have many patients associated with it (including the user)
+4. using the patient form, enter in necessary information (including symptoms)
+5. you'll be returned to the home page after submitting the form. once returned to the homepage, click the patient link in the dropdown, then find and click your name below.
+6. you'll be taken to your patient's profile page with a list of condition(s) and the condition's probability
 
-```
-npm i
-```
+## Technologies Used
 
-3. Create a `config.json` with the following code:
+- Node, Express w/ EJS, Bootstrap, Postgres, HTML, Infermedica API
 
-```json
-{
-  "development": {
-    "database": "express_auth_dev",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  },
-  "test": {
-    "database": "express_auth_test",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  },
-  "production": {
-    "database": "express_auth_production",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  }
-}
-```
+## Models
 
-**note:** if your database requires a username and password, you'll need to include these fields as well.
-create a database
+- User.js: a one-to-many relationship with patient.js
+- Patient.js: a one-to-one relationship with patient.js
 
-```
-sequelize db:create <insert db name here>
-```
-
-5. migrate the `user` model to your database
-
-```
-sequelize db:migrate
-```
-
-6. add a `SESSION_SECRET` AND `PORT` environment variable in a `.env` file (can be any string).
-
-7. Run `nodemon` to start up app
+## Heroku Link
