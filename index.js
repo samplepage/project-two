@@ -74,7 +74,7 @@ app.get('/', (req,res)=>{
 app.get('/patient-profile', isLoggedIn, (req,res)=>{
     db.patient.findOne({where:{id:req.query.id}})
     .then(patient=>{
-const data = JSON.stringify({text: 'I have a headache with swollen feet and a runny nose.', age: {value:30}});
+const data = JSON.stringify({text: patient.symptoms, age: {value:patient.age}}); //req.body
 const config = {
   method: 'post',
   url: 'https://api.infermedica.com/v3/parse',
@@ -95,7 +95,7 @@ axios(config)
       //console.log(mention.choice_id)
   })
   //write json
-  const data = JSON.stringify({"sex": "male", "age": {"value": 30}, "evidence": arr});
+  const data = JSON.stringify({"sex": "male", "age": {"value": 30}, "evidence": arr}); 
   const config = {
     method: 'post',
     url: 'https://api.infermedica.com/v3/diagnosis',

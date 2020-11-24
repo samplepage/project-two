@@ -3,7 +3,7 @@
 
 <% patients.forEach(patient=>{ %>
     <ul>
-        <li><%= patient.firstName %> <%= patient.lastName %> <a href="/deletePatient?patientId=<%= patient.id %>">Delete</a>
+        <li>Click the Name to See Probable Conditions: <a href="/patient-profile?id=<%=patient.id%>"><%= patient.firstName %> <%= patient.lastName %></a> <a href="/deletePatient?patientId=<%= patient.id %>">Delete</a>
             <br>
         <form action="/updatePatient" method="POST">
             <input type="text" name="symptoms" value="<%= patient.symptoms %>"/>
